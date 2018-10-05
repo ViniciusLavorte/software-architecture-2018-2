@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashSet;
 import java.util.Set;
-
+//corrigir
 public class CountryDAO {
 
     private final String URL = "jdbc:derby:database";
