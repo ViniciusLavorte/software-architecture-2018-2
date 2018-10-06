@@ -1,10 +1,11 @@
  package edu.utfpr.cp.sa.entity;
 
+import edu.utfpr.cp.sa.business.VerificarCustomer;
 import lombok.Data;
 
 @Data
 public class Customer {
-	
+	VerificarCustomer ver = new VerificarCustomer();
         private Long id;
 	private String name;
 	private String phone;
@@ -25,44 +26,32 @@ public class Customer {
         }
 
 	public void setName(String name) throws Exception {
-		if (name.length() < 5)
-			throw new Exception("Sorry, name must be 5 characters in length!");
+		if (name.length() < 5){
+		throw new Exception("Sorry, name must be 5 characters in length!");
+        }
 		
-		this.name = name;
+		this.name =  name;
 	}
 
 	public void setPhone(String phone) throws Exception {
+		if (country == null){
+        	throw new Exception("Country must be defined!");
+        }
 		
-		if (this.getCountry() == null)
-			throw new Exception("Country must be defined!");
-		
-		if (phone.length() != this.getCountry().getPhoneDigits())
-			throw new Exception("Phone does not conform to country!");
-		
-		this.phone = phone;
-	}
+		this.phone = ver.VerificarPhone(phone, this.getCountry().getPhoneDigits());
+	} 
 
 	public void setAge(int age) {
 		
-		if (age <= 18)
-			this.setCreditLimit(this.getCreditLimit() + 100.0);
-		
-		else if (age <= 35)
-			this.setCreditLimit(this.getCreditLimit() + 300.0);
-		
-		else
-			this.setCreditLimit(this.getCreditLimit() + 500.0);
-			
+		this.setCreditLimit( ver.VerificarAge(age,this.getCreditLimit()));	
 		this.age = age;
 	}
 
 	public void setCountry(Country country) throws Exception {
-		
-		if (country == null || country.getName().length() < 1)
-			throw new Exception("Country must be informed!");
-		
-		if (country.getName().equalsIgnoreCase("Brazil"))
-			this.setCreditLimit(this.getCreditLimit() + 100.0);
+            if (country.getName() == null || country.getName().length() < 1)
+                throw new Exception("Country must be informed!");
+            
+		this.setCreditLimit (ver.VerificaCountry(country.getName(),this.getCreditLimit()));
 			
 		this.country = country;
 	}
