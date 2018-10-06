@@ -19,68 +19,69 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 
-
-
 /**
  *
  * @author vinicius
  */
-
-
-
-
-
 public class VerificarCustomer {
+
     private CustomerDAO customerDAO;
     private CountryDAO countryDAO;
-   private CustomerWindow customerwindow;
-    
-    
+    private CustomerWindow customerwindow;
 
-   public void CriarCustomer(Customer c) throws Exception {
-         
-            if(customerDAO.create(c)){
-                System.out.println("Ocorreu tudo certo");
-            }else throw new Exception("Customer não foi criado");
-      
+    public VerificarCustomer(CustomerDAO customerDAO, CountryDAO countryDAO, CustomerWindow customerwindow) {
+        this.customerDAO = customerDAO;
+        this.countryDAO = countryDAO;
+        this.customerwindow = customerwindow;
     }
     
-    
-    public String VerificarPhone(String phone, int CgetPhoneDigits) throws Exception{
-    
-	
-        if (phone.length() != CgetPhoneDigits){
-		throw new Exception("Phone does not conform to country!");
-        }else 
-            return phone;    
-    }    
-    
-    public double VerificarAge(int age,double Credit){   
-    
-        if (age <= 18)
-		return (Credit + 100.0);
-        else if (age <= 35)
-		return(Credit + 300.0);
-        else
-		return(Credit + 500.0);
-    
+    public VerificarCustomer(){
+        
     }
     
-    public double VerificaCountry(String countryName,double CreditLimit) throws Exception{
-       
-    if (countryName.equalsIgnoreCase("Brazil"))
-	return (CreditLimit + 100.0);
-    
-    return CreditLimit;
+    public void CriarCustomer(Customer c) throws Exception {
+        try {
+            customerDAO.create(c);
+            JOptionPane.showMessageDialog(null, "Customer successfully added!");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
     }
 
-    
-    
-    public Set<Customer> LerCustomer(){
+    public String VerificarPhone(String phone, int CgetPhoneDigits) throws Exception {
+
+        if (phone.length() != CgetPhoneDigits) {
+            throw new Exception("Phone does not conform to country!");
+        } else {
+            return phone;
+        }
+    }
+
+    public double VerificarAge(int age, double Credit) {
+
+        if (age <= 18) {
+            return (Credit + 100.0);
+        } else if (age <= 35) {
+            return (Credit + 300.0);
+        } else {
+            return (Credit + 500.0);
+        }
+
+    }
+
+    public double VerificaCountry(String countryName, double CreditLimit) throws Exception {
+
+        if (countryName.equalsIgnoreCase("Brazil")) {
+            return (CreditLimit + 100.0);
+        }
+
+        return CreditLimit;
+    }
+
+    public Set<Customer> LerCustomer() {
         HashSet<Customer> customers = new HashSet<>();
         customers = (HashSet<Customer>) customerDAO.read();
         return customers;
     }
 
-    
 }

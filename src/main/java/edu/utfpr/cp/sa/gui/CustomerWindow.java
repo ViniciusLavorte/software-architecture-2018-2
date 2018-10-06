@@ -195,11 +195,11 @@ public class CustomerWindow extends JFrame {
         try {
             //customerDAO.create(c);
             verificacustomer.CriarCustomer(c);
-            JOptionPane.showMessageDialog(this, "Customer successfully added!");
             this.cleanPanelData();
             this.table.setModel(new CustomerTableModel(verificacustomer.LerCustomer()));
 
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
 
@@ -225,6 +225,8 @@ public class CustomerWindow extends JFrame {
     public CustomerWindow(CustomerDAO customerDAO, CountryDAO countryDAO) {
         this.customerDAO = customerDAO;
         this.countryDAO = countryDAO;
+        
+        this.verificacustomer = new VerificarCustomer(this.customerDAO,this.countryDAO,this);
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         contentPane = new JPanel();
