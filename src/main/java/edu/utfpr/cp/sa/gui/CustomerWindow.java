@@ -1,5 +1,6 @@
 package edu.utfpr.cp.sa.gui;
 
+import edu.utfpr.cp.sa.business.VerificarCustomer;
 import edu.utfpr.cp.sa.dao.CountryDAO;
 import edu.utfpr.cp.sa.dao.CustomerDAO;
 import java.awt.BorderLayout;
@@ -24,7 +25,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
 
-class CustomerTableModel extends AbstractTableModel {
+ class CustomerTableModel extends AbstractTableModel {
 
     private ArrayList<Customer> customers;
     private String columnNames[] = {"ID", "Name", "Phone", "Credit Limit", "Age", "Country"};
@@ -78,21 +79,21 @@ class CustomerTableModel extends AbstractTableModel {
     }
 
 }
-
 public class CustomerWindow extends JFrame {
 
     private JPanel contentPane;
     private JTextField id;
-    private JTextField name;
-    private JTextField phone;
-    private JTextField age;
-    private JComboBox<String> country;
-    private JTable table;
+    public JTextField name;
+    public JTextField phone;
+    public JTextField age;
+    public JComboBox<String> country;
+    public JTable table;
 
     private CustomerDAO customerDAO;
     private CountryDAO countryDAO;
+    private VerificarCustomer verificacustomer;
 
-    private void cleanPanelData() {
+    public void cleanPanelData() {
         id.setText("");
         name.setText("");
         phone.setText("");
@@ -109,51 +110,9 @@ public class CustomerWindow extends JFrame {
         country.setSelectedItem(String.valueOf(this.table.getModel().getValueAt(this.table.getSelectedRow(), 5)));
     }
 
-    private void create() {
-        Customer c = new Customer();
-        Country selected = countryDAO.read().stream().filter(e -> e.getName().equalsIgnoreCase((String) country.getSelectedItem())).findFirst().get();
-
-        try {
-            c.setCountry(selected);
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
-            return;
-
-        }
-
-        c.setAge(new Integer(age.getText()));
-
-        try {
-            c.setName(name.getText());
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
-            return;
-
-        }
-
-        try {
-            c.setPhone(phone.getText());
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
-            return;
-
-        }
-
-        try {
-            customerDAO.create(c);
-            JOptionPane.showMessageDialog(this, "Customer successfully added!");
-            this.cleanPanelData();
-            this.table.setModel(new CustomerTableModel(customerDAO.read()));
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
-        }
-
-    }
-
+   
+   
+    
     private void update() {
         Customer c = customerDAO.read().stream().filter(e -> e.getId().equals(new Long(id.getText()))).findAny().get();
         Country selected = countryDAO.read().stream().filter(e -> e.getName().equalsIgnoreCase((String) country.getSelectedItem())).findFirst().get();
@@ -199,6 +158,54 @@ public class CustomerWindow extends JFrame {
 
     }
 
+     public void create() {
+         
+        Customer c = new Customer();
+        Country selected = countryDAO.read().stream().filter(e -> e.getName().equalsIgnoreCase((String) country.getSelectedItem())).findFirst().get();
+
+        try {
+            c.setCountry(selected);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+            return;
+
+        }
+
+        c.setAge(new Integer(age.getText()));
+
+        try {
+            c.setName(name.getText());
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+            return;
+
+        }
+
+        try {
+            c.setPhone(phone.getText());
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+            return;
+
+        }
+
+        try {
+            //customerDAO.create(c);
+            verificacustomer.CriarCustomer(c);
+            JOptionPane.showMessageDialog(this, "Customer successfully added!");
+            this.cleanPanelData();
+            this.table.setModel(new CustomerTableModel(verificacustomer.LerCustomer()));
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+
+    }
+    
+    
     private void delete() {
 
         try {
@@ -274,7 +281,7 @@ public class CustomerWindow extends JFrame {
 
         JButton btnCreate = new JButton("Create");
         panelInclusion.add(btnCreate);
-        btnCreate.addActionListener(e -> this.create());
+        btnCreate.addActionListener(e -> create());
 
         JButton btnUpdate = new JButton("Update");
         panelInclusion.add(btnUpdate);

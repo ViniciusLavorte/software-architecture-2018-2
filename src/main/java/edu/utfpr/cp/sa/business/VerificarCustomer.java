@@ -5,16 +5,46 @@
  */
 package edu.utfpr.cp.sa.business;
 
+import edu.utfpr.cp.sa.dao.CountryDAO;
+import edu.utfpr.cp.sa.dao.CustomerDAO;
 import edu.utfpr.cp.sa.entity.Country;
+import edu.utfpr.cp.sa.entity.Customer;
+//import edu.utfpr.cp.sa.gui.CustomerTableModel;
+import edu.utfpr.cp.sa.gui.CustomerWindow;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.AbstractTableModel;
+
 
 
 /**
  *
  * @author vinicius
  */
+
+
+
+
+
 public class VerificarCustomer {
+    private CustomerDAO customerDAO;
+    private CountryDAO countryDAO;
+   private CustomerWindow customerwindow;
     
-   
+    
+
+   public void CriarCustomer(Customer c) throws Exception {
+         
+            if(customerDAO.create(c)){
+                System.out.println("Ocorreu tudo certo");
+            }else throw new Exception("Customer não foi criado");
+      
+    }
+    
     
     public String VerificarPhone(String phone, int CgetPhoneDigits) throws Exception{
     
@@ -43,5 +73,14 @@ public class VerificarCustomer {
     
     return CreditLimit;
     }
+
+    
+    
+    public Set<Customer> LerCustomer(){
+        HashSet<Customer> customers = new HashSet<>();
+        customers = (HashSet<Customer>) customerDAO.read();
+        return customers;
+    }
+
     
 }
