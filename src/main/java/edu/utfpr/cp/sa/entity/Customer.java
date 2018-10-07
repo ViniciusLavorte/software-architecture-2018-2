@@ -37,8 +37,9 @@ public class Customer {
 		if (country == null){
         	throw new Exception("Country must be defined!");
         }
+                int valor = country.getPhoneDigits();
 		
-		this.phone = ver.VerificarPhone(phone, String.valueOf(this.getCountry().getPhoneDigits()).length());
+		this.phone = ver.VerificarPhone(phone, valor);
 	} 
 
 	public void setAge(int age) {

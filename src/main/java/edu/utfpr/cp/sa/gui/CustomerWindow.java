@@ -147,10 +147,11 @@ public class CustomerWindow extends JFrame {
         }
 
         try {
-            customerDAO.update(c);
+            //customerDAO.update(c);
+            verificacustomer.UpdateCustomer(c);
             JOptionPane.showMessageDialog(this, "Customer successfully updated!");
             this.cleanPanelData();
-            this.table.setModel(new CustomerTableModel(customerDAO.read()));
+            this.table.setModel(new CustomerTableModel(verificacustomer.LerCustomer()));
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
@@ -209,7 +210,8 @@ public class CustomerWindow extends JFrame {
     private void delete() {
 
         try {
-            customerDAO.delete(new Long(id.getText()));
+           // customerDAO.delete(new Long(id.getText()));
+            verificacustomer.DeleteCustomer(new Long(id.getText()));
             
             JOptionPane.showMessageDialog(this, "Customer successfully deleted!");
             

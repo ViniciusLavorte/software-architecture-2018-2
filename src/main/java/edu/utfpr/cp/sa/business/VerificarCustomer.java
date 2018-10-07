@@ -39,6 +39,23 @@ public class VerificarCustomer {
         
     }
     
+    public void UpdateCustomer(Customer c) throws Exception {
+        try {
+            customerDAO.update(c);
+            JOptionPane.showMessageDialog(null, "Update successfully added!");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }
+    
+    public void DeleteCustomer(Long id) throws Exception {
+        try {
+            customerDAO.delete(new Long(id));
+            JOptionPane.showMessageDialog(null, "Update successfully added!");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }
     public void CriarCustomer(Customer c) throws Exception {
         try {
             customerDAO.create(c);
@@ -49,7 +66,8 @@ public class VerificarCustomer {
     }
 
     public String VerificarPhone(String phone, int CgetPhoneDigits) throws Exception {
-
+        System.out.println(phone.length());
+        System.out.println(CgetPhoneDigits);
         if (phone.length() != CgetPhoneDigits) {
             throw new Exception("Phone does not conform to country!");
         } else {

@@ -1,5 +1,6 @@
 package edu.utfpr.cp.sa.gui;
 
+import edu.utfpr.cp.sa.business.VerificarCountry;
 import edu.utfpr.cp.sa.dao.CountryDAO;
 import java.awt.BorderLayout;
 
@@ -79,7 +80,7 @@ public class CountryWindow extends JFrame {
     private JTextField phoneDigits;
     private JTable table;
     private CountryDAO countryDAO;
-    
+    private VerificarCountry verificarCountry;
     
     private void cleanPanelData() {
         id.setText("");
@@ -104,7 +105,9 @@ public class CountryWindow extends JFrame {
         c.setPhoneDigits(new Integer(phoneDigits.getText()));
 
         try {
-            countryDAO.create(c);
+            verificarCountry.CriarCountry(c);
+            //countryDAO.create(c);
+             //verificacustomer.CriarCustomer(c);
             JOptionPane.showMessageDialog(this, "Country successfully added!");
             this.table.setModel(new CountryTableModel(countryDAO.read()));
             
@@ -125,7 +128,8 @@ public class CountryWindow extends JFrame {
             c.setAcronym(acronym.getText());
             c.setPhoneDigits(new Integer(phoneDigits.getText()));
 
-            countryDAO.update(c);
+            verificarCountry.UpdateCountry(c);
+            //countryDAO.update(c);
             JOptionPane.showMessageDialog(this, "Country successfully updated!");
             this.cleanPanelData();
             this.table.setModel(new CountryTableModel(countryDAO.read()));
@@ -138,7 +142,8 @@ public class CountryWindow extends JFrame {
     private void delete() {
      
         try {
-            countryDAO.delete(new Long (id.getText()));
+            verificarCountry.DeleteCountry(new Long(id.getText()));
+            //countryDAO.delete(new Long (id.getText()));
             JOptionPane.showMessageDialog(this, "Country successfully deleted!");
             this.cleanPanelData();
             this.table.setModel(new CountryTableModel(countryDAO.read()));
