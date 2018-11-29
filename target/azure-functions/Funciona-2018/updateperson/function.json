@@ -1,0 +1,16 @@
+{
+  "scriptFile" : "../Funcionario-1.0-SNAPSHOT.jar",
+  "entryPoint" : "com.Funcionario.Funcionario.update",
+  "bindings" : [ {
+    "type" : "httpTrigger",
+    "name" : "updatepersonrest",
+    "direction" : "in",
+    "route" : "person",
+    "authLevel" : "function",
+    "methods" : [ "PUT" ]
+  }, {
+    "type" : "http",
+    "name" : "$return",
+    "direction" : "out"
+  } ]
+}

@@ -1,0 +1,16 @@
+{
+  "scriptFile" : "../Funcionario-1.0-SNAPSHOT.jar",
+  "entryPoint" : "com.Funcionario.Funcionario.create",
+  "bindings" : [ {
+    "type" : "httpTrigger",
+    "name" : "createpersonrest",
+    "direction" : "in",
+    "route" : "person",
+    "authLevel" : "function",
+    "methods" : [ "POST" ]
+  }, {
+    "type" : "http",
+    "name" : "$return",
+    "direction" : "out"
+  } ]
+}
